@@ -1,4 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
+﻿#define WIN32_LEAN_AND_MEAN
 #include <stdlib.h>
 #include <windows.h>
 
@@ -24,9 +24,9 @@
 // There are some hints about changing corners here
 //      https://github.com/taviso/hotcorner/issues/7#issuecomment-269367351
 static const RECT kHotCorner = {
-    .top    = -20,
-    .left   = -20,
-    .right  = +20,
+    .top = -20,
+    .left = -20,
+    .right = +20,
     .bottom = +20,
 };
 
@@ -39,7 +39,7 @@ static const INPUT kCornerInput[] = {
 };
 
 // How long cursor has to linger in the kHotCorner RECT to trigger input.
-static const DWORD kHotDelay = 300;
+static const DWORD kHotDelay = 20;
 
 // You can exit the application using the hot key CTRL+ALT+C by default, if it
 // interferes with some application you're using (e.g. a full screen game).
@@ -65,8 +65,8 @@ static DWORD WINAPI CornerHotFunc(LPVOID lpParameter)
     // Check if any modifier keys are pressed.
     if (GetKeyboardState(KeyState)) {
         if (KEYDOWN(KeyState[VK_SHIFT]) || KEYDOWN(KeyState[VK_CONTROL])
-          || KEYDOWN(KeyState[VK_MENU]) || KEYDOWN(KeyState[VK_LWIN])
-          || KEYDOWN(KeyState[VK_RWIN])) {
+            || KEYDOWN(KeyState[VK_MENU]) || KEYDOWN(KeyState[VK_LWIN])
+            || KEYDOWN(KeyState[VK_RWIN])) {
             return 0;
         }
     }
@@ -78,7 +78,7 @@ static DWORD WINAPI CornerHotFunc(LPVOID lpParameter)
 
     // Check co-ordinates.
     if (PtInRect(&kHotCorner, Point)) {
-        #pragma warning(suppress : 4090)
+#pragma warning(suppress : 4090)
         if (SendInput(_countof(kCornerInput), kCornerInput, sizeof(INPUT)) != _countof(kCornerInput)) {
             return 1;
         }
@@ -89,7 +89,7 @@ static DWORD WINAPI CornerHotFunc(LPVOID lpParameter)
 
 static LRESULT CALLBACK MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    MSLLHOOKSTRUCT *evt = (MSLLHOOKSTRUCT *) lParam;
+    MSLLHOOKSTRUCT* evt = (MSLLHOOKSTRUCT*)lParam;
 
     // If the mouse hasn't moved, we're done.
     if (wParam != WM_MOUSEMOVE)
